@@ -1,0 +1,4 @@
+./test/index.js
+--reporter spec
+--recursive
+--growl
