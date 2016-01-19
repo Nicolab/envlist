@@ -118,6 +118,21 @@ envList.NODE_ENV;
 envList.getCurrent();
 ```
 
+### Ensure the current environment
+
+It may be useful to ensure that the current environment is good
+and change it if it's not the desired one.
+
+Example, ensure the `dev` environment:
+```js
+envList.ensure('dev');
+```
+
+In this example, if the current environment is not equal to `dev`,
+this method change and consolidate the current environment.
+
+Does nothing if the current environment is equal to `dev`.
+
 ### Use your own resolver
 
 Considers that you have installed Gulp and `gulp-util` and you want to support `env.type`:
@@ -191,7 +206,7 @@ envList.envs = {
 
 ## Unit tests
 
-`envList` is unit tested with [Unit.js](http://unitjs.com) and [Mocha](https://mochajs.org).
+`envlist` is unit tested with [Mocha](https://mochajs.org) and [Unit.js](http://unitjs.com).
 
 Run the tests
 ```shell
