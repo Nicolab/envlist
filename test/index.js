@@ -249,4 +249,73 @@ describe('EnvList', function() {
         .isIdenticalTo('_testApp11')
     ;
   });
+
+  it('`envList.ensure()` should be able to ensure the current environment', function() {
+    let spy = test.spy();
+    let consolidate = em.consolidate;
+
+    initTestEnv(12);
+    process.env.APP_ENV = '_testApp12';
+    em.consolidate();
+
+    em.consolidate = function(env) {
+      spy(env);
+      return consolidate.call(em, env);
+    };
+
+    test
+      .given(() => {
+        test
+          .string(em.env)
+            .isIdenticalTo(process.env.APP_ENV)
+            .isIdenticalTo('_testApp12')
+
+          .string(em.NODE_ENV)
+            .isIdenticalTo(process.env.NODE_ENV)
+            .isIdenticalTo('_testNode12')
+
+          .object(em.ensure('_testApp12'))
+            .isInstanceOf(EnvList)
+
+          .string(em.env)
+            .isIdenticalTo(process.env.APP_ENV)
+            .isIdenticalTo('_testApp12')
+
+          .string(em.NODE_ENV)
+            .isIdenticalTo(process.env.NODE_ENV)
+            .isIdenticalTo('_testNode12')
+
+        ;
+
+        test.assert(spy.notCalled);
+      })
+      .when(() => {
+        test.object(em.ensure('dev')).isInstanceOf(EnvList);
+      })
+      .then(() => {
+        test
+          .string(em.env)
+            .isIdenticalTo(process.env.APP_ENV)
+            .isIdenticalTo('dev')
+
+          .string(em.NODE_ENV)
+            .isIdenticalTo(process.env.NODE_ENV)
+            .isIdenticalTo('development')
+        ;
+
+        test.assert(spy.calledOnce);
+        spy.reset();
+      })
+      .then('Throws an error if a bad env is provided', () => {
+        test
+          .error(() => em.ensure('_env_not_existing_'))
+            .isInstanceOf(ReferenceError)
+        ;
+
+        test.assert(spy.notCalled);
+      })
+    ;
+
+    em.consolidate = consolidate;
+  });
 });

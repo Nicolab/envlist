@@ -89,23 +89,22 @@ class EnvList {
       return this;
     }
 
-    throw new ReferenceError('Environment not found.');
+    throw new ReferenceError('Environment "'+ this.env +'" not found.');
   }
 
   /**
    * Consolidate the environment from `APP_ENV` to `NODE_ENV`.
    *
    * @return {EnvList}
+   * @throws ReferenceError See EnvList.resolveAppEnv()
    */
   consolidate () {
     if(!this.env) {
       this.resolveAppEnv();
     }
 
-    if(process && process.env) {
-      process.env.APP_ENV = this.envs[this.env].APP_ENV;
-      process.env.NODE_ENV = this.envs[this.env].NODE_ENV;
-    }
+    process.env.APP_ENV = this.envs[this.env].APP_ENV;
+    process.env.NODE_ENV = this.envs[this.env].NODE_ENV;
 
     return this;
   }
@@ -149,7 +148,7 @@ class EnvList {
       return this.envs[appEnvName];
     }
 
-    throw new ReferenceError('Environment not found.');
+    throw new ReferenceError('Environment "'+ appEnvName +'" not defined.');
   }
 
   /**
@@ -161,6 +160,33 @@ class EnvList {
    */
   getCurrent() {
     return this.get(this.env);
+  }
+
+  /**
+   * Ensure the current environment.
+   *
+   * If the current environment is not equal to `appEnvName`,
+   * this method change and consolidate the current environment.
+   *
+   * Does nothing if the current environment is equal to `appEnvName`.
+   *
+   * @param  {string} appEnvName (e.g: prod, dev, local, ...).
+   * @return {EnvList}
+   * @throws ReferenceError If `appEnvName` is not a valid environment.
+   */
+  ensure(appEnvName) {
+    if(this.is(appEnvName)) {
+      return this;
+    }
+
+    if(!this.has(appEnvName)) {
+      throw new ReferenceError('Environment "'+ appEnvName +'" not defined.');
+    }
+
+    this.env = appEnvName;
+    this.consolidate();
+
+    return this;
   }
 }
 
