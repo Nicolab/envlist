@@ -1,6 +1,6 @@
 {
   "name": "envlist",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "envlist is a micro-module (without dependency) for resolving the type of runtime environment between your application convention and another convention (like NODE_ENV).",
   "main": "./src/index.js",
   "keywords": [
