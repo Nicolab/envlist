@@ -23,7 +23,15 @@ Then consolidate all :bulb:
 
 ## Install
 
-`npm install --save envlist`
+```sh
+npm install --save envlist
+```
+
+or
+
+```sh
+yarn add envlist
+```
 
 
 ## Usage
@@ -44,17 +52,13 @@ console.log(envList.envs);
 Output:
 
 ```js
-  dev: {
-    APP_ENV: 'dev',
-    NODE_ENV: 'development'
-  },
   local: {
     APP_ENV: 'local',
     NODE_ENV: 'development'
   },
-  prod: {
-    APP_ENV: 'prod',
-    NODE_ENV: 'production'
+  dev: {
+    APP_ENV: 'dev',
+    NODE_ENV: 'development'
   },
   stage: {
     APP_ENV: 'stage',
@@ -62,18 +66,59 @@ Output:
   },
   test: {
     APP_ENV: 'test',
-    NODE_ENV: 'test'
-  },
-  testProd: {
-    APP_ENV: 'testProd',
-    NODE_ENV: 'production'
-  },
-  testDev: {
-    APP_ENV: 'testDev',
     NODE_ENV: 'development'
+  },
+  prod: {
+    APP_ENV: 'prod',
+    NODE_ENV: 'production'
   }
 }
 ```
+
+
+### Customize a specific environment
+
+You can customize each environment. Example by default the value of
+`envList.envs.test.NODE_ENV` is `development`. If you want to change this value:
+
+```js
+envList.envs.test.NODE_ENV = 'production';
+```
+
+`envList.envs` it's just an object (see above).
+
+
+### Use your own set of environments
+
+```js
+envList.envs = {
+  development: {
+    APP_ENV: 'development',
+    NODE_ENV: 'development'
+  },
+  production: {
+    APP_ENV: 'production',
+    NODE_ENV: 'production'
+  },
+  staging: {
+    APP_ENV: 'staging',
+    NODE_ENV: 'production'
+  },
+  test: {
+    APP_ENV: 'test',
+    NODE_ENV: 'production'
+  },
+  demoProd: {
+    APP_ENV: 'demoProd',
+    NODE_ENV: 'production'
+  },
+  demoDev: {
+    APP_ENV: 'demoDev',
+    NODE_ENV: 'development'
+  }
+};
+```
+
 
 ### Get a specific environment name
 
@@ -124,6 +169,7 @@ It may be useful to ensure that the current environment is good
 and change it if it's not the desired one.
 
 Example, ensure the `dev` environment:
+
 ```js
 envList.ensure('dev');
 ```
@@ -132,6 +178,7 @@ In this example, if the current environment is not equal to `dev`,
 this method change and consolidate the current environment.
 
 Does nothing if the current environment is equal to `dev`.
+
 
 ### Use your own resolver
 
@@ -180,33 +227,10 @@ envList.consolidate = function() {
 If you use a framework that handle the environment based on `NODE_ENV` value (like _Express.js_),
 consolidate the environment before loading _Express.js_.
 
-### Use your own set of environments
-
-```js
-envList.envs = {
-  development: {
-    APP_ENV: 'development',
-    NODE_ENV: 'development'
-  },
-  production: {
-    APP_ENV: 'production',
-    NODE_ENV: 'production'
-  },
-  staging: {
-    APP_ENV: 'staging',
-    NODE_ENV: 'production'
-  },
-  test: {
-    APP_ENV: 'test',
-    NODE_ENV: 'development'
-  }
-};
-```
-
 
 ## Unit tests
 
-`envlist` is unit tested with [Mocha](https://mochajs.org) and [Unit.js](http://unitjs.com).
+`envlist` is unit tested with [Mocha](https://mochajs.org) and [Unit.js](https://unitjs.com).
 
 Run the tests
 ```shell
@@ -221,7 +245,7 @@ cd node_modules/envlist && npm install && npm test
 
 ## Author
 
-| [![Nicolas Tallefourtane - Nicolab.net](http://www.gravatar.com/avatar/d7dd0f4769f3aa48a3ecb308f0b457fc?s=64)](http://nicolab.net) |
+| [![Nicolas Tallefourtane - Nicolab.net](https://www.gravatar.com/avatar/d7dd0f4769f3aa48a3ecb308f0b457fc?s=64)](http://nicolab.net) |
 |---|
-| [Nicolas Talle](http://nicolab.net) |
+| [Nicolas Talle](https://nicolab.net) |
 | [![Make a donation via Paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=PGRH4ZXP36GUC) |
