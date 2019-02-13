@@ -59,7 +59,7 @@ describe('EnvList', function() {
           },
           test: {
             APP_ENV: 'test',
-            NODE_ENV: 'test'
+            NODE_ENV: 'development'
           },
           testProd: {
             APP_ENV: 'testProd',
